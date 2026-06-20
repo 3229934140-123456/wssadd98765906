@@ -325,6 +325,24 @@
   font-weight: $font-weight-semibold;
 }
 
+.confirmBtnWarn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, #CC6600 0%, #FF7D00 100%);
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  box-shadow: 0 8rpx 24rpx rgba(255, 125, 0, 0.3);
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
 .previewBtn {
   @include button-reset;
   width: 100%;

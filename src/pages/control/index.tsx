@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import { useTrip } from '@/store/TripContext';
-import { DriveScene } from '@/types';
+import { DriveScene, ControlAlert } from '@/types';
 import ControlAlertBanner from '@/components/ControlAlertBanner';
 import AbnormalCard from '@/components/AbnormalCard';
 

@@ -208,7 +208,7 @@ const HandoverPage: React.FC = () => {
       </View>
 
       <View className={styles.sectionTitle}>
-        <Text className={styles.titleText}>�📈 温度曲线数据</Text>
+        <Text className={styles.titleText}>� 温度曲线数据</Text>
         <View className={styles.titleBadge}>
           {frozenZone ? `${frozenZone.name}实时监控` : ''}
         </View>
@@ -356,13 +356,12 @@ const HandoverPage: React.FC = () => {
           </Button>
         ) : (
           <Button
-            className={canHandover ? styles.confirmBtn : styles.confirmBtnDisabled}
-            disabled={!canHandover}
+            className={canHandover ? styles.confirmBtn : styles.confirmBtnWarn}
             onClick={handleConfirm}
           >
             {canHandover
               ? '✓ 确认交接完成'
-              : `存在未完成项 (${blockReasons.length})`}
+              : `存在未完成项 (${blockReasons.length})，点击查看`}
           </Button>
         )}
         <Button className={styles.previewBtn} onClick={handlePreview}>

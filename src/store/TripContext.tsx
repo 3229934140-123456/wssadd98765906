@@ -16,17 +16,80 @@ interface TripContextType {
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'cold_chain_trip_state_v1';
+
+const mergeWithPersistedState = (mock: TripState, persisted: Partial<TripState>): TripState => {
+  const result: TripState = { ...mock, ...persisted };
+
+  if (persisted.controlAlerts && Array.isArray(persisted.controlAlerts)) {
+    const executedMap = new Map<string, { executed: boolean; executedAt?: string; photoUrl?: string }>();
+    persisted.controlAlerts.forEach(a => {
+      if (a.executed) {
+        executedMap.set(a.id, {
+          executed: a.executed,
+          executedAt: a.executedAt,
+          photoUrl: a.photoUrl
+        });
+      }
+    });
+
+    result.controlAlerts = mock.controlAlerts.map(mockAlert => {
+      const saved = executedMap.get(mockAlert.id);
+      if (saved) {
+        return { ...mockAlert, ...saved };
+      }
+      return mockAlert;
+    });
+
+    const persistedExtra = persisted.controlAlerts.filter(
+      pa => !mock.controlAlerts.find(ma => ma.id === pa.id) && pa.executed
+    );
+    result.controlAlerts = [...result.controlAlerts, ...persistedExtra];
+
+    console.log('[TripContext] Merged control alerts:', {
+      total: result.controlAlerts.length,
+      executed: result.controlAlerts.filter(a => a.executed).length,
+      newAdded: mock.controlAlerts.length - persisted.controlAlerts.length
+    });
+  } else {
+    result.controlAlerts = mock.controlAlerts;
+  }
+
+  if (persisted.abnormalAlerts && Array.isArray(persisted.abnormalAlerts)) {
+    const handledMap = new Map<string, boolean>();
+    persisted.abnormalAlerts.forEach(a => {
+      if (a.handled) {
+        handledMap.set(a.id, true);
+      }
+    });
+    result.abnormalAlerts = mock.abnormalAlerts.map(mockAlert => ({
+      ...mockAlert,
+      handled: handledMap.get(mockAlert.id) || mockAlert.handled
+    }));
+  }
+
+  if (persisted.handover) {
+    result.handover = {
+      ...mock.handover,
+      ...persisted.handover
+    };
+  }
+
+  return result;
+};
+
 const loadPersistedState = (): TripState => {
   try {
     const stored = Taro.getStorageSync(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      console.log('[TripContext] Loaded persisted state');
-      return { ...mockTripState, ...parsed };
+      console.log('[TripContext] Loaded persisted state, merging with latest mock...');
+      return mergeWithPersistedState(mockTripState, parsed);
     }
   } catch (err) {
     console.error('[TripContext] Failed to load persisted state:', err);
   }
+  console.log('[TripContext] Using fresh mock state');
   return mockTripState;
 };
 
