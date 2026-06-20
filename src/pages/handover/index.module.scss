@@ -1,0 +1,344 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  padding: $spacing-lg $page-padding;
+  padding-bottom: 200rpx;
+  background: $color-bg-page;
+}
+
+.handoverHeader {
+  padding: $spacing-xl;
+  border-radius: $radius-xl;
+  background: linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%);
+  margin-bottom: $spacing-lg;
+  position: relative;
+  overflow: hidden;
+}
+
+.headerDecor {
+  position: absolute;
+  right: -100rpx;
+  top: -100rpx;
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: $radius-round;
+  background: radial-gradient(circle, rgba(0, 212, 170, 0.2) 0%, transparent 70%);
+}
+
+.handoverNo {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: $spacing-md;
+  position: relative;
+  z-index: 1;
+}
+
+.handoverTitle {
+  font-size: 44rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  line-height: 1.2;
+  margin-bottom: $spacing-md;
+  position: relative;
+  z-index: 1;
+}
+
+.headerInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
+  position: relative;
+  z-index: 1;
+}
+
+.headerInfoItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.infoIcon {
+  font-size: 28rpx;
+}
+
+.infoContent {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.infoContent strong {
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.confirmedBanner {
+  margin-top: $spacing-lg;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  background: rgba(0, 180, 42, 0.15);
+  border: 2rpx solid rgba(0, 180, 42, 0.3);
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  position: relative;
+  z-index: 1;
+}
+
+.confirmedIcon {
+  font-size: 40rpx;
+}
+
+.confirmedText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-success;
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: $spacing-xl 0 $spacing-md;
+}
+
+.titleText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.titleBadge {
+  padding: 6rpx 16rpx;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  background: rgba(0, 212, 170, 0.15);
+  color: $color-cool;
+}
+
+.paramsCard {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: $spacing-md;
+}
+
+.paramGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+}
+
+.paramItem {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: $color-bg-elevated;
+}
+
+.paramLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-bottom: 6rpx;
+}
+
+.paramValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1.2;
+}
+
+.paramMode {
+  color: $color-electric;
+}
+
+.paramTemp {
+  color: $color-cool;
+}
+
+.paramPress {
+  color: $color-oil;
+}
+
+.signSection {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: $spacing-md;
+}
+
+.signRow {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.signBox {
+  flex: 1;
+  border-radius: $radius-md;
+  border: 2rpx dashed $color-border;
+  background: $color-bg-page;
+  min-height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-base;
+
+  &:active {
+    border-color: $color-cool;
+    background: rgba(0, 212, 170, 0.05);
+  }
+}
+
+.signBoxSigned {
+  border-style: solid;
+  border-color: $color-success;
+  background: rgba(0, 180, 42, 0.05);
+}
+
+.signPlaceholder {
+  text-align: center;
+}
+
+.signIcon {
+  font-size: 48rpx;
+  margin-bottom: $spacing-sm;
+}
+
+.signLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.signName {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: $spacing-xs;
+}
+
+.signCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.signRoleBadge {
+  position: absolute;
+  top: $spacing-sm;
+  left: $spacing-sm;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  font-size: 20rpx;
+  font-weight: $font-weight-semibold;
+  z-index: 2;
+}
+
+.driverBadge {
+  background: rgba(64, 128, 255, 0.2);
+  color: $color-electric;
+}
+
+.receiverBadge {
+  background: rgba(0, 212, 170, 0.2);
+  color: $color-cool;
+}
+
+.signedText {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-success;
+  font-style: italic;
+  transform: rotate(-3deg);
+  z-index: 1;
+}
+
+.remarkBox {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: $spacing-md;
+}
+
+.remarkLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.remarkContent {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: $color-bg-elevated;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  min-height: 80rpx;
+}
+
+.footerBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent 0%, $color-bg-page 20%);
+  z-index: 100;
+}
+
+.confirmBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-cool-dark 0%, $color-cool 100%);
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  box-shadow: 0 8rpx 24rpx rgba(0, 212, 170, 0.3);
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.confirmBtnDisabled {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: $color-bg-elevated;
+  color: $color-text-disabled;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+}
+
+.previewBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  background: transparent;
+  border: 2rpx solid $color-border;
+  color: $color-text-secondary;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  margin-top: $spacing-sm;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}

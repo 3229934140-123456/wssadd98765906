@@ -1,0 +1,129 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  border-left: 8rpx solid $color-cool;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+}
+
+.frozen {
+  border-left-color: $color-temp-frozen;
+}
+
+.chilled {
+  border-left-color: $color-temp-chilled;
+}
+
+.ambient {
+  border-left-color: $color-temp-ambient;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.zoneName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.goodsInfo {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.tempRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.currentTemp {
+  font-size: 64rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1;
+}
+
+.frozenTemp {
+  color: $color-temp-frozen;
+}
+
+.chilledTemp {
+  color: $color-temp-chilled;
+}
+
+.ambientTemp {
+  color: $color-temp-ambient;
+}
+
+.tempDetail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $spacing-xs;
+}
+
+.targetLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.targetValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+}
+
+.goodsRow {
+  display: flex;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-border;
+}
+
+.goodsName {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  flex: 1;
+  @include text-ellipsis;
+}
+
+.goodsWeight {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-tertiary;
+  margin-left: $spacing-md;
+}
+
+.statusDot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: $radius-round;
+  background: $color-success;
+  margin-right: $spacing-xs;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+}

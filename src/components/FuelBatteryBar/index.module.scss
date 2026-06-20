@@ -1,0 +1,115 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: $spacing-md;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xl;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.totalRange {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.section {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.iconBox {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+}
+
+.oilIcon {
+  background: rgba(255, 176, 32, 0.15);
+  color: $color-oil;
+}
+
+.batteryIcon {
+  background: rgba(64, 128, 255, 0.15);
+  color: $color-electric;
+}
+
+.label {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.percentText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.progressBar {
+  width: 100%;
+  height: 24rpx;
+  border-radius: $radius-round;
+  background: $color-bg-elevated;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: $radius-round;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.oilFill {
+  background: linear-gradient(90deg, $color-oil-dark 0%, $color-oil 50%, $color-oil-light 100%);
+}
+
+.batteryFill {
+  background: linear-gradient(90deg, $color-electric-dark 0%, $color-electric 50%, $color-electric-light 100%);
+}
+
+.rangeRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacing-xs;
+}
+
+.rangeText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}

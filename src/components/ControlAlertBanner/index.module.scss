@@ -1,0 +1,126 @@
+@use '@/styles/variables.scss' as *;
+
+.banner {
+  padding: $spacing-xl;
+  border-radius: $radius-xl;
+  margin-bottom: $spacing-lg;
+  position: relative;
+  overflow: hidden;
+}
+
+.driving {
+  background: linear-gradient(135deg, #00A885 0%, #00D4AA 100%);
+}
+
+.waiting {
+  background: linear-gradient(135deg, #CC6600 0%, #FF7D00 100%);
+}
+
+.loading {
+  background: linear-gradient(135deg, #CC8C00 0%, #FFB020 100%);
+}
+
+.unloading {
+  background: linear-gradient(135deg, #1F5FE0 0%, #4080FF 100%);
+}
+
+.idle {
+  background: linear-gradient(135deg, #475569 0%, #64748B 100%);
+}
+
+.sceneTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 20rpx;
+  border-radius: $radius-round;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+  margin-bottom: $spacing-md;
+}
+
+.bigAction {
+  font-size: 72rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  line-height: 1.1;
+  margin-bottom: $spacing-md;
+  letter-spacing: -1rpx;
+}
+
+.description {
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: $line-height-normal;
+  margin-bottom: $spacing-xl;
+}
+
+.actionRow {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+}
+
+.executeBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: $color-text-white;
+  color: $color-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.photoBtn {
+  @include button-reset;
+  width: 96rpx;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: rgba(255, 255, 255, 0.2);
+  color: $color-text-white;
+  font-size: 40rpx;
+  transition: all $transition-base;
+
+  &:active {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+.executedTag {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 28rpx;
+  border-radius: $radius-button;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+}
+
+.decorCircle {
+  position: absolute;
+  right: -80rpx;
+  top: -80rpx;
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: $radius-round;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.decorCircle2 {
+  position: absolute;
+  right: 60rpx;
+  top: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: $radius-round;
+  background: rgba(255, 255, 255, 0.08);
+}
