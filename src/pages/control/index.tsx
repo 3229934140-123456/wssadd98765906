@@ -35,6 +35,27 @@ const ControlPage: React.FC = () => {
     Taro.showToast({ title: `已切换至${label}场景`, icon: 'none', duration: 1500 });
   };
 
+  const handleViewDetail = (alert: ControlAlert) => {
+    Taro.showModal({
+      title: '执行详情',
+      content: `场景：${alert.sceneLabel}\n操作：${alert.actionLabel}\n说明：${alert.description}\n执行时间：${alert.executedAt?.slice(0, 19).replace('T', ' ') || '--'}\n凭证照片：${alert.photoUrl ? '已拍摄' : '无'}`,
+      showCancel: true,
+      cancelText: '关闭',
+      confirmText: alert.photoUrl ? '查看凭证' : '',
+      confirmColor: '#00D4AA',
+      success: (res) => {
+        if (res.confirm && alert.photoUrl) {
+          Taro.previewImage({
+            current: alert.photoUrl,
+            urls: [alert.photoUrl]
+          }).catch(err => {
+            console.error('[ControlPage] Preview image failed:', err);
+          });
+        }
+      }
+    });
+  };
+
   const handleDispatch = () => {
     Taro.showModal({
       title: '紧急联系调度',
@@ -161,7 +182,7 @@ const ControlPage: React.FC = () => {
 
       {allDoneAlerts.length > 0 && (
         allDoneAlerts.map(alert => (
-          <View key={alert.id} className={styles.historyCard}>
+          <View key={alert.id} className={styles.historyCard} onClick={() => handleViewDetail(alert)}>
             <View className={styles.historyHeader}>
               <Text className={styles.historyScene}>📍 {alert.sceneLabel}</Text>
               <Text className={styles.historyTime}>
@@ -181,7 +202,7 @@ const ControlPage: React.FC = () => {
               <View className={styles.historyInfo}>
                 <Text className={styles.historyAction}>✓ {alert.actionLabel}</Text>
                 <Text className={styles.historyStatus}>
-                  {alert.photoUrl ? '凭证已上传 · 操作完成' : '无照片凭证'}
+                  {alert.photoUrl ? '凭证已上传 · 点击查看详情' : '无照片凭证 · 点击查看'}
                 </Text>
               </View>
             </View>

@@ -9,13 +9,30 @@ import { formatTemp, getModeColor } from '@/utils/format';
 
 const HandoverPage: React.FC = () => {
   const { state, setHandoverSignature, confirmHandover } = useTrip();
-  const { tripInfo, tempZones, tempHistory, coolerStatus, handover } = state;
+  const { tripInfo, tempZones, tempHistory, coolerStatus, handover, controlAlerts, abnormalAlerts } = state;
 
   const driverSigned = !!handover.driverSignature;
   const receiverSigned = !!handover.receiverSignature;
   const allSigned = driverSigned && receiverSigned;
 
   const frozenZone = tempZones.find(z => z.type === 'frozen');
+
+  const pendingControls = controlAlerts.filter(a => !a.executed);
+  const pendingAbnormals = abnormalAlerts.filter(a => !a.handled);
+  const allTempOk = tempZones.every(z => Math.abs(z.currentTemp - z.targetTemp) <= 1);
+
+  const canHandover = allSigned && pendingControls.length === 0 && pendingAbnormals.length === 0;
+
+  const blockReasons: string[] = [];
+  if (pendingControls.length > 0) {
+    blockReasons.push(`还有 ${pendingControls.length} 项联控指令未执行`);
+  }
+  if (pendingAbnormals.length > 0) {
+    blockReasons.push(`还有 ${pendingAbnormals.length} 项异常预警未处理`);
+  }
+  if (!allSigned) {
+    blockReasons.push('双方签名尚未完成');
+  }
 
   const handleSign = (role: 'driver' | 'receiver') => {
     const name = role === 'driver' ? tripInfo.driverName : handover.receiverName;
@@ -37,8 +54,14 @@ const HandoverPage: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    if (!allSigned) {
-      Taro.showToast({ title: '请双方完成签名', icon: 'none' });
+    if (!canHandover) {
+      Taro.showModal({
+        title: '⚠️ 无法确认交接',
+        content: blockReasons.join('\n'),
+        showCancel: false,
+        confirmText: '知道了',
+        confirmColor: '#F53F3F'
+      });
       return;
     }
 
@@ -61,7 +84,7 @@ const HandoverPage: React.FC = () => {
     const avgTemp = frozenZone ? formatTemp(frozenZone.currentTemp) : '--';
     Taro.showModal({
       title: '电子交接凭证',
-      content: `交接单号：${handover.id}\n订单号：${tripInfo.orderNo}\n线路：${tripInfo.startCity}→${tripInfo.endCity}\n车牌：${tripInfo.plateNo}\n司机：${handover.driverSignature || '未签'}\n收货员：${handover.receiverSignature || '未签'}\n时间：${handover.handoverTime}\n地点：${handover.location}\n冷冻区温度：${avgTemp}\n状态：${handover.confirmed ? '已完成' : '待确认'}`,
+      content: `交接单号：${handover.id}\n订单号：${tripInfo.orderNo}\n线路：${tripInfo.startCity}→${tripInfo.endCity}\n车牌：${tripInfo.plateNo}\n司机：${handover.driverSignature || '未签'}\n收货员：${handover.receiverSignature || '未签'}\n时间：${handover.handoverTime}\n地点：${handover.location}\n冷冻区温度：${avgTemp}\n联控执行：${controlAlerts.filter(a => a.executed).length}/${controlAlerts.length}\n异常处理：${abnormalAlerts.filter(a => a.handled).length}/${abnormalAlerts.length}\n状态：${handover.confirmed ? '已完成' : '待确认'}`,
       showCancel: false,
       confirmText: '关闭',
       confirmColor: '#00D4AA'
@@ -104,7 +127,88 @@ const HandoverPage: React.FC = () => {
       </View>
 
       <View className={styles.sectionTitle}>
-        <Text className={styles.titleText}>📈 温度曲线数据</Text>
+        <Text className={styles.titleText}>� 交接摘要</Text>
+        <View
+          className={classnames(styles.titleBadge)}
+          style={{
+            background: canHandover ? 'rgba(0,180,42,0.15)' : 'rgba(245,63,63,0.15)',
+            color: canHandover ? '#00B42A' : '#F53F3F'
+          }}
+        >
+          {canHandover ? '✓ 满足交接条件' : '✗ 存在未完成项'}
+        </View>
+      </View>
+
+      <View className={styles.summaryCard}>
+        <View className={styles.summaryList}>
+          <View className={styles.summaryItem}>
+            <View className={styles.summaryItemLeft}>
+              <Text className={styles.summaryItemIcon}>🌡️</Text>
+              <Text className={styles.summaryItemLabel}>温区达标</Text>
+            </View>
+            <View className={classnames(styles.summaryStatus, allTempOk ? styles.statusPass : styles.statusFail)}>
+              {allTempOk ? `✓ ${tempZones.length}区全部达标` : `✗ ${tempZones.filter(z => Math.abs(z.currentTemp - z.targetTemp) > 1).length}区异常`}
+            </View>
+          </View>
+
+          <View className={styles.summaryItem}>
+            <View className={styles.summaryItemLeft}>
+              <Text className={styles.summaryItemIcon}>⚡</Text>
+              <Text className={styles.summaryItemLabel}>联控指令</Text>
+            </View>
+            <View className={classnames(
+              styles.summaryStatus,
+              pendingControls.length === 0 ? styles.statusPass : styles.statusFail
+            )}>
+              {pendingControls.length === 0
+                ? `✓ ${controlAlerts.length}项全部执行`
+                : `✗ ${pendingControls.length}项待执行`}
+            </View>
+          </View>
+
+          <View className={styles.summaryItem}>
+            <View className={styles.summaryItemLeft}>
+              <Text className={styles.summaryItemIcon}>⚠️</Text>
+              <Text className={styles.summaryItemLabel}>异常预警</Text>
+            </View>
+            <View className={classnames(
+              styles.summaryStatus,
+              pendingAbnormals.length === 0 ? styles.statusPass : (pendingAbnormals.some(a => a.severity === 'high') ? styles.statusFail : styles.statusWarn)
+            )}>
+              {pendingAbnormals.length === 0
+                ? `✓ 无未处理异常`
+                : `✗ ${pendingAbnormals.length}项待处理`}
+            </View>
+          </View>
+
+          <View className={styles.summaryItem}>
+            <View className={styles.summaryItemLeft}>
+              <Text className={styles.summaryItemIcon}>✍️</Text>
+              <Text className={styles.summaryItemLabel}>双方签名</Text>
+            </View>
+            <View className={classnames(
+              styles.summaryStatus,
+              allSigned ? styles.statusPass : styles.statusFail
+            )}>
+              {allSigned ? '✓ 双方已签名' : `${[driverSigned, receiverSigned].filter(Boolean).length}/2 已签`}
+            </View>
+          </View>
+        </View>
+
+        {!canHandover && !handover.confirmed && (
+          <View className={styles.blockBanner}>
+            <Text className={styles.blockTitle}>⚠️ 以下项目未完成，无法确认交接</Text>
+            <View className={styles.blockList}>
+              {blockReasons.map((reason, idx) => (
+                <Text key={idx} className={styles.blockItem}>• {reason}</Text>
+              ))}
+            </View>
+          </View>
+        )}
+      </View>
+
+      <View className={styles.sectionTitle}>
+        <Text className={styles.titleText}>�📈 温度曲线数据</Text>
         <View className={styles.titleBadge}>
           {frozenZone ? `${frozenZone.name}实时监控` : ''}
         </View>
@@ -252,11 +356,13 @@ const HandoverPage: React.FC = () => {
           </Button>
         ) : (
           <Button
-            className={allSigned ? styles.confirmBtn : styles.confirmBtnDisabled}
-            disabled={!allSigned}
+            className={canHandover ? styles.confirmBtn : styles.confirmBtnDisabled}
+            disabled={!canHandover}
             onClick={handleConfirm}
           >
-            {allSigned ? '✓ 确认交接完成' : `请完成签名 (${[driverSigned, receiverSigned].filter(Boolean).length}/2)`}
+            {canHandover
+              ? '✓ 确认交接完成'
+              : `存在未完成项 (${blockReasons.length})`}
           </Button>
         )}
         <Button className={styles.previewBtn} onClick={handlePreview}>

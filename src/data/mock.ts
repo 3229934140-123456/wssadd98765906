@@ -84,6 +84,24 @@ export const mockCoolerStatus: CoolerStatus = {
 
 export const mockControlAlerts: ControlAlert[] = [
   {
+    id: 'ctrl_load1',
+    scene: 'loading',
+    sceneLabel: '装货作业中',
+    action: 'switch_oil',
+    actionLabel: '启动油机预冷',
+    description: '装货前需启动柴机油机提前预冷厢体，确保装货时温度已降至目标温区，避免货品入厢后升温',
+    executed: false
+  },
+  {
+    id: 'ctrl_load2',
+    scene: 'loading',
+    sceneLabel: '装货作业中',
+    action: 'keep',
+    actionLabel: '装货完毕关门前复检',
+    description: '装货完成后关闭厢门前，确认冷机运行正常、厢内温度达标后再关门，并拍照留证',
+    executed: false
+  },
+  {
     id: 'ctrl1',
     scene: 'driving',
     sceneLabel: '高速行驶中',
@@ -95,21 +113,48 @@ export const mockControlAlerts: ControlAlert[] = [
     photoUrl: 'https://picsum.photos/id/2/400/300'
   },
   {
+    id: 'ctrl_drive2',
+    scene: 'driving',
+    sceneLabel: '高速行驶中',
+    action: 'switch_dual',
+    actionLabel: '切换油电双模强冷',
+    description: '环境温度较高，单电机制冷能力不足，请启动油电双模式强冷快速降温',
+    executed: false
+  },
+  {
     id: 'ctrl2',
     scene: 'waiting',
     sceneLabel: '服务区等待',
     action: 'switch_oil',
     actionLabel: '切换至油机强冷',
-    description: '怠速等待超过10分钟，电池消耗较快，请启动柴机油机进行强冷',
+    description: '怠速等待超过10分钟，电池消耗较快，请启动柴机油机进行强冷，节省电池续航',
+    executed: false
+  },
+  {
+    id: 'ctrl_wait2',
+    scene: 'waiting',
+    sceneLabel: '服务区等待',
+    action: 'keep',
+    actionLabel: '保持油机运行',
+    description: '等待期间保持油机制冷，确保厢内温度稳定，等待结束后再切回电机',
     executed: false
   },
   {
     id: 'ctrl3',
     scene: 'unloading',
-    sceneLabel: '即将到达卸货区',
+    sceneLabel: '卸货作业中',
     action: 'switch_electric',
     actionLabel: '切换至电机制冷',
-    description: '市区内卸货请使用电机模式，避免柴机油机噪音扰民',
+    description: '市区内卸货请使用电机模式，避免柴机油机噪音扰民，遵守市区禁噪规定',
+    executed: false
+  },
+  {
+    id: 'ctrl_unload2',
+    scene: 'unloading',
+    sceneLabel: '卸货作业中',
+    action: 'keep',
+    actionLabel: '开门前确认温度达标',
+    description: '卸货开门前确认各温区温度在目标范围内，开门后尽快卸货减少冷气流失',
     executed: false
   }
 ];

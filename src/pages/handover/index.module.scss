@@ -342,3 +342,91 @@
     background: $color-bg-hover;
   }
 }
+
+.summaryCard {
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-bg-card;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.3);
+  margin-bottom: $spacing-md;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: $color-bg-elevated;
+}
+
+.summaryItemLeft {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.summaryItemIcon {
+  font-size: 32rpx;
+}
+
+.summaryItemLabel {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.summaryStatus {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  padding: 6rpx 16rpx;
+  border-radius: $radius-sm;
+}
+
+.statusPass {
+  color: $color-success;
+  background: rgba(0, 180, 42, 0.15);
+}
+
+.statusFail {
+  color: $color-error;
+  background: rgba(245, 63, 63, 0.15);
+}
+
+.statusWarn {
+  color: $color-warning;
+  background: rgba(255, 125, 0, 0.15);
+}
+
+.blockBanner {
+  margin-top: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  background: rgba(245, 63, 63, 0.1);
+  border: 2rpx solid rgba(245, 63, 63, 0.3);
+}
+
+.blockTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-error;
+  margin-bottom: $spacing-sm;
+}
+
+.blockList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.blockItem {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}

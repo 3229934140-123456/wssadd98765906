@@ -3,13 +3,24 @@ import { View, Text } from '@tarojs/components';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import { useTrip } from '@/store/TripContext';
+import { DriveScene } from '@/types';
 import TempZoneCard from '@/components/TempZoneCard';
 import FuelBatteryBar from '@/components/FuelBatteryBar';
 import { formatTemp, getModeColor } from '@/utils/format';
 
+const stageList: { scene: DriveScene; label: string; icon: string }[] = [
+  { scene: 'loading', label: '装货', icon: '📦' },
+  { scene: 'driving', label: '发车', icon: '🚛' },
+  { scene: 'waiting', label: '等待', icon: '⏸️' },
+  { scene: 'unloading', label: '卸货', icon: '📤' },
+  { scene: 'idle', label: '交接', icon: '🤝' }
+];
+
 const DashboardPage: React.FC = () => {
   const { state } = useTrip();
-  const { tripInfo, tempZones, fuelBattery, nextStop, coolerStatus, currentSceneLabel } = state;
+  const { tripInfo, tempZones, fuelBattery, nextStop, coolerStatus, currentScene, currentSceneLabel } = state;
+
+  const currentStageIdx = stageList.findIndex(s => s.scene === currentScene);
 
   const modeIconMap = {
     oil: '🔥',
@@ -71,6 +82,53 @@ const DashboardPage: React.FC = () => {
             <Text className={styles.infoLabel}>完成度</Text>
             <Text className={styles.infoValue} style={{ color: '#00D4AA' }}>{tripInfo.progress}%</Text>
           </View>
+        </View>
+      </View>
+
+      <View className={styles.sectionTitle}>
+        <Text className={styles.titleText}>🗺️ 行程阶段</Text>
+        <Text className={styles.titleAction}>{currentSceneLabel}</Text>
+      </View>
+
+      <View className={styles.stageCard}>
+        <View className={styles.stageTrack}>
+          {stageList.map((stage, idx) => {
+            const isCompleted = idx < currentStageIdx;
+            const isCurrent = idx === currentStageIdx;
+            const isLast = idx === stageList.length - 1;
+            return (
+              <View key={stage.scene} className={styles.stageItem}>
+                <View className={styles.stageNodeWrap}>
+                  <View
+                    className={classnames(
+                      styles.stageNode,
+                      isCompleted && styles.stageNodeDone,
+                      isCurrent && styles.stageNodeActive
+                    )}
+                  >
+                    <Text className={styles.stageNodeIcon}>{stage.icon}</Text>
+                  </View>
+                  {!isLast && (
+                    <View
+                      className={classnames(
+                        styles.stageLine,
+                        (isCompleted || isCurrent) && styles.stageLineActive
+                      )}
+                    />
+                  )}
+                </View>
+                <Text
+                  className={classnames(
+                    styles.stageLabel,
+                    isCurrent && styles.stageLabelActive,
+                    isCompleted && styles.stageLabelDone
+                  )}
+                >
+                  {stage.label}
+                </Text>
+              </View>
+            );
+          })}
         </View>
       </View>
 

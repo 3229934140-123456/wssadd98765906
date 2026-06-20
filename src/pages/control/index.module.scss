@@ -202,6 +202,12 @@
   background: $color-bg-card;
   margin-bottom: $spacing-sm;
   border-left: 6rpx solid $color-success;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-bg-card-hover;
+    transform: scale(0.99);
+  }
 }
 
 .historyHeader {
