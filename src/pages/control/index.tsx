@@ -36,22 +36,27 @@ const ControlPage: React.FC = () => {
   };
 
   const handleViewDetail = (alert: ControlAlert) => {
+    const hasPhoto = !!alert.photoUrl;
     Taro.showModal({
       title: '执行详情',
-      content: `场景：${alert.sceneLabel}\n操作：${alert.actionLabel}\n说明：${alert.description}\n执行时间：${alert.executedAt?.slice(0, 19).replace('T', ' ') || '--'}\n凭证照片：${alert.photoUrl ? '已拍摄' : '无'}`,
-      showCancel: true,
+      content: `场景：${alert.sceneLabel}\n操作：${alert.actionLabel}\n说明：${alert.description}\n执行时间：${alert.executedAt?.slice(0, 19).replace('T', ' ') || '--'}\n凭证照片：${hasPhoto ? '已拍摄 ✓' : '无照片凭证'}`,
+      showCancel: hasPhoto,
       cancelText: '关闭',
-      confirmText: alert.photoUrl ? '查看凭证' : '',
+      confirmText: hasPhoto ? '查看凭证' : '知道了',
       confirmColor: '#00D4AA',
       success: (res) => {
-        if (res.confirm && alert.photoUrl) {
+        if (res.confirm && hasPhoto && alert.photoUrl) {
           Taro.previewImage({
             current: alert.photoUrl,
             urls: [alert.photoUrl]
           }).catch(err => {
             console.error('[ControlPage] Preview image failed:', err);
+            Taro.showToast({ title: '图片加载失败', icon: 'none' });
           });
         }
+      },
+      fail: (err) => {
+        console.error('[ControlPage] showModal failed:', err);
       }
     });
   };

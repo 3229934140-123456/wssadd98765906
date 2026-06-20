@@ -16,8 +16,6 @@ interface TripContextType {
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'cold_chain_trip_state_v1';
-
 const mergeWithPersistedState = (mock: TripState, persisted: Partial<TripState>): TripState => {
   const result: TripState = { ...mock, ...persisted };
 
