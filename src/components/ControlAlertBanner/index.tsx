@@ -7,7 +7,7 @@ import { ControlAlert } from '@/types';
 
 interface ControlAlertBannerProps {
   alert: ControlAlert;
-  onExecute: (alertId: string, photoUrl?: string) => void;
+  onExecute: (alertId: string, photoUrl: string) => void;
 }
 
 const ControlAlertBanner: React.FC<ControlAlertBannerProps> = ({ alert, onExecute }) => {
@@ -18,28 +18,23 @@ const ControlAlertBanner: React.FC<ControlAlertBannerProps> = ({ alert, onExecut
         sourceType: ['camera'],
         sizeType: ['compressed']
       });
-      const photoUrl = res.tempFilePaths[0];
+      const photoUrl = res.tempFilePaths?.[0];
+      if (!photoUrl) {
+        console.warn('[ControlAlertBanner] No photo selected');
+        Taro.showToast({ title: '请拍摄凭证照片', icon: 'none' });
+        return;
+      }
       onExecute(alert.id, photoUrl);
       Taro.showToast({ title: '执行成功，已拍照留证', icon: 'success' });
       console.log('[ControlAlertBanner] Photo captured:', photoUrl);
     } catch (err) {
-      console.error('[ControlAlertBanner] Photo capture failed:', err);
-      onExecute(alert.id);
-      Taro.showToast({ title: '执行成功', icon: 'success' });
+      console.error('[ControlAlertBanner] Photo capture failed or cancelled:', err);
+      Taro.showToast({ title: '未拍摄凭证，操作已取消', icon: 'none', duration: 2000 });
     }
   };
 
   const handlePhotoOnly = async () => {
-    try {
-      await Taro.chooseImage({
-        count: 1,
-        sourceType: ['camera'],
-        sizeType: ['compressed']
-      });
-      Taro.showToast({ title: '照片已保存', icon: 'success' });
-    } catch (err) {
-      console.error('[ControlAlertBanner] Photo capture failed:', err);
-    }
+    Taro.showToast({ title: '请先点击「已执行」按钮', icon: 'none' });
   };
 
   return (

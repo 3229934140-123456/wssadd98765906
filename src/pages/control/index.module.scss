@@ -77,6 +77,54 @@
   }
 }
 
+.sceneTabs {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  padding-bottom: 4rpx;
+}
+
+.sceneTab {
+  flex: 1;
+  min-width: 110rpx;
+  padding: $spacing-sm 8rpx;
+  border-radius: $radius-md;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2rpx solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.sceneTabActive {
+  background: rgba(0, 212, 170, 0.2);
+  border-color: rgba(0, 212, 170, 0.5);
+}
+
+.sceneTabIcon {
+  font-size: 36rpx;
+}
+
+.sceneTabText {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.sceneTabActive .sceneTabText {
+  color: $color-cool;
+  font-weight: $font-weight-semibold;
+}
+
 .statsGrid {
   display: flex;
   gap: $spacing-md;
@@ -141,6 +189,11 @@
 .doneBadge {
   background: rgba(0, 180, 42, 0.15);
   color: $color-success;
+}
+
+.titleHint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
 }
 
 .historyCard {
